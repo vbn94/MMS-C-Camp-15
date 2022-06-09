@@ -1,24 +1,50 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
+#include <stdint.h>
+
+#define COUNT 10
+
+// #pragma pack(1)
 
 int randint(int,int);
 double randReal(double,double);
 char* randomName(char*);
 
+typedef struct student {
+    char name[50];
+    uint8_t age;
+    double grade;
+} student_t;
+
+void studentInfo(student_t st){
+    printf("Name: %24s, Age: %d, Grade: %.2lf\n", st.name, st.age, st.grade);
+}
 
 int main(){
-    srand(time(NULL));
-    char name[24];
-    for (int i = 0; i < 10; i++){
-        printf("%s\n", randomName(name));
+    student_t st1 = { 
+        .name="Ivan",
+        .age=34,
+        .grade=4.5
+    };
+    student_t st2 = {
+        .name="Pesho",
+        .age=15,
+        .grade=5.6
+    };
+    //studentInfo(st1);
+    //studentInfo(st2);
+
+    student_t mmsStudents[COUNT];
+    for (int i = 0; i < COUNT; i++){
+        randomName(mmsStudents[i].name);
+        mmsStudents[i].age = randint(10, 60);
+        mmsStudents[i].grade = randReal(2.0, 6.0);
     }
-   /* printf("RAND_MAX: %lu\n", RAND_MAX);
-    srand(time(NULL));
-    for (int i = 0; i < 100; i++){
-        //printf("%.2lf\n", randReal(15, 20));
-        printf("%c\n", randint('A', 'z'));
-    }*/
+    for (int i = 0; i < COUNT; i++){
+        studentInfo(mmsStudents[i]);
+    }
     return 0;
 }
 
