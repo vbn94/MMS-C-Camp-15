@@ -29,6 +29,9 @@ int compPagesDESC(const void*, const void*);
 int compPriceASC(const void*, const void*);
 int compPriceDESC(const void*, const void*);
 
+void *linearSearch(const void *, const void *, size_t, size_t, int (*)(const void *, const void *));
+
+
 int main(){
     /*int (*compfunc[])(const void*, const void*) = {
         compAuthorASC,
@@ -58,16 +61,26 @@ int main(){
     for (int i = 0; i < COUNT; i++){
         randomName(books[i].author);
         randomName(books[i].title);
-        books[i].pages = randint(5, 2000);
+        books[i].pages = randint(5, 10);
         books[i].price = randReal(1.0, 2.0);
     }
     
-    scanf("%d", &opt);
-    qsort(books, COUNT, sizeof(books[0]), compfunc[opt]);
-
-    for (int i = 0; i < COUNT; i++){
+    //scanf("%d", &opt);
+    //qsort(books, COUNT, sizeof(books[0]), compfunc[opt]);
+    //qsort(books, COUNT, sizeof(books[0]), compPagesASC);
+    /*for (int i = 0; i < COUNT; i++){
         printBook(books + i);
+    }*/
+
+    Book key = {.author="Vazov", .price=8, .pages=8, .title="Pod igoto"};
+
+    Book *element = linearSearch(&key, books, COUNT,  sizeof(*books), compPagesASC);
+    if (!element){
+        printf("Not found!\n");
+    } else {
+        printBook(element);
     }
+
     return 0;
 }
 
@@ -161,4 +174,13 @@ int compPriceDESC(const void* bp1, const void* bp2){
         return 1;
     }
     return -1;
+}
+
+void *linearSearch(const void *key, const void *base, size_t nitems, size_t size, int (*compar)(const void *, const void *)){
+    for (int i = 0; i < nitems; i++){
+        if(compar(key, base + i * size) == 0){
+            return base + i * size;
+        }
+    }
+    return NULL;
 }
