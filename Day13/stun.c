@@ -63,7 +63,30 @@ typedef union {
     };
 } Reg;
 
+enum Day { 
+    MONDAY = 10,
+    TUESDAY,
+    SATURDAY = 15,
+    SUNDAY
+};
+
+typedef enum {
+    ON=1,
+    OFF=0,
+} States;
+
 int main(){
+    enum Day days;
+    days = MONDAY;
+    if (days == TUESDAY){
+        printf("Its tuesday!\n");
+    } else {
+        printf("Its not tuesday!\n");
+    }
+    States myMachine;
+    myMachine = ON;
+    printf("Machine state: %d\n", myMachine);
+    printf("size of enum day: %lu\n", sizeof(enum Day));
     /*perm p1;
     printf("%lu Bytes\n", sizeof(p1));
     p1.u = 0;
